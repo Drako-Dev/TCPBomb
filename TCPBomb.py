@@ -181,7 +181,7 @@ def mainMenu():
     print("_______________________")
     print("")
     print("Creators:")
-    print(")
+    print("")
     print('Emanuel and Drako')
     print("")
     print('Version: v1.0')
