@@ -5,6 +5,8 @@ global op
 
 url = ""
 threads = 0
+port = int(80)
+
 def getIp(domain):
     try:
         now = datetime.now();
@@ -45,6 +47,7 @@ def scanMenu():
         [1] - Set to max port
         [2] - Set URL
         [3] - Scan
+        [4] - Go to Main menu
     """)
     print("_______________________")
     print("")
@@ -53,7 +56,7 @@ def scanMenu():
         url = ""
         while True:
             op = int(input("--> "))
-            if(op > 3):
+            if(op > 4):
                 print("[INFO] Invalid option please try again!")
             if(op == 1):
                 max_p = False if max_p else True
@@ -69,6 +72,13 @@ def scanMenu():
                     print("[INFO] Set the URL!")
                 else:
                     verifyports(url,max_p)
+            if op == 4:
+                time.sleep(2)
+                if os.name == 'nt':
+                    os.system("cls")
+                else:
+                    os.system("clear")
+                mainMenu()
     except:
             print("[INFO] Invalid option please try again!")
 def httpMenu():
@@ -79,19 +89,23 @@ def httpMenu():
 
         [1] - Set the URL!
         [2] - Set number of Threads!
+        [3] - Set port (default is 80)
 
     Options:
 
         [1] - Set URL
         [2] - Set Threads number
-        [3] - Start attack
-        [4] - Go to Main menu
+        [3] - Set port
+        [4] - Start attack
+        [5] - Go to Main menu
     """)
     print("_______________________")
     print("")
     try:
         while True:
             op = int(input("--> "))
+            if op == 3:
+            	port = input('Set port -->')
             if op == 1:
                 url = input('Set url --> ')
             if op == 2:
@@ -99,9 +113,9 @@ def httpMenu():
                 if(threads > 16):
                     print("[INFO] MAx limit of thread is 16.")
                     threads = 16
-            if(op > 4):
+            if(op > 5):
                 print("[INFO] Invalid option please try again!")
-            elif op == 3:
+            elif op == 4:
                 if(url == ""):
                     print("[INFO] Url is not defined please set Url!")
                     
@@ -109,7 +123,7 @@ def httpMenu():
                     print("[INFO] Threads number is not defined please ser threads!")
                 else:
                     break
-            elif op == 4:
+            elif op == 5:
                 time.sleep(2)
                 if os.name == 'nt':
                     os.system("cls")
@@ -121,7 +135,8 @@ def httpMenu():
 
     except:
             print("[INFO] Invalid options please try again!")
-    attack(url,threads,80)
+    attack(url,threads,port)
+
 def randomPortMenu():
     print("_______________________")
     print("")
@@ -184,8 +199,8 @@ def mainMenu():
     print("")
     print('Emanuel and Drako')
     print("")
-    print('Version: v1.0')
-    print("UpdateData: 05/04/2021")
+    print('Version: v1.2')
+    print("UpdateData: 06/04/2021")
     print("_______________________")
     time.sleep(2)
     if os.name == 'nt':
@@ -196,7 +211,7 @@ def mainMenu():
     print("")
     print("""Options:
 
-    [1] - Attack http or https ports
+    [1] - Attack specific port
     [2] - Attack random ports
     [3] - Port sccan
     [4] - Exit
@@ -279,7 +294,8 @@ def pr():
     hour = now.hour;
     minute = now.minute;
     second = now.second
-    print(f"[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends!")
+    print("")
+    print(f"\n[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends in port {port}!")
     timemsg = now.second + 3;
 
     while True:
@@ -294,5 +310,5 @@ def pr():
         minute = now.minute;
         if atual == timemsg:
             timemsg = now.second + 3;
-            print(f"[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends!")
+            print(f"[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends in port {port}!")
 mainMenu()
