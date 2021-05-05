@@ -7,35 +7,30 @@ sl = 0
 global op
 
 global port
-
+global isUpdate
 def update():
 
-    
+    isUpdate = False
 
     try:
 
         open(".IsUp","r")
 
-        
+        isUpdate = True
 
         print("[INFO] Update found... Updating.")
 
         print(f"[INFO] New version is {currentversion}")
-        os.remove(sys.argv[0])
+
         sg = requests.get("https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/TCPBomb.py")
 
-        f = open(sys.argv[0],"w")
+        f = open(".UpdateF","w")
 
         f.write(sg.text)
 
-        
-
-        print("[INFO] Update sucess. Restart program.")
-
-        os._exit(0)
     except:
 
-        pass
+        isUpdate = False
 
 url = ""
 
@@ -43,7 +38,7 @@ port = 80
 
 threads = 0
 
-version = float(1.5)
+version = float(1.4)
 
 currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/version')
 
@@ -54,8 +49,7 @@ if(currentversion > version):
     open(".IsUp","w")
 
     update()
-if(version == 1.5):
-    print("debug")
+
 def getIp(domain):
 
     try:
@@ -736,8 +730,7 @@ def mainMenu():
 
                 print(f"[ERROR] {i}")
 
-if(__name__ == "__main__"):
+if(__name__ == "__main__" and not isUpdate ):
 
     mainMenu()
-
 
