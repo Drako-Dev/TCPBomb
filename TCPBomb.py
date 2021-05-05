@@ -7,7 +7,7 @@ global port
 url = ""
 port = 80
 threads = 0
-version = float(1.3)
+version = float(1.4)
 currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/CurrentVersion.json')
 currentversion = float(currentversion.text)
 
