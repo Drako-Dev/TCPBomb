@@ -3,7 +3,18 @@ from datetime import datetime
 sl = 0
 global op
 global port
-
+def update():
+    isUpdate = False
+    try:
+        open(".IsUp","r")
+        isUpdate = True
+        print("[INFO] Update found... Updating.")
+        print(f"[INFO] New version is {currentversion}")
+        sg = requests.get("https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/TCPBomb.py")
+        f = open(".UpdateF","w")
+        f.write(sg.text)
+    except:
+        isUpdate = False
 url = ""
 port = 80
 threads = 0
@@ -286,18 +297,6 @@ def randomPortMenu():
             for i in sys.exc_info():
                 print(f"[ERROR] {i}")
     attack(url,threads)
-def update():
-    isUpdate = False
-    try:
-        open(".IsUp","r")
-        isUpdate = True
-        print("[INFO] Update found... Updating.")
-        print(f"[INFO] New version is {currentversion}")
-        sg = requests.get("https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/TCPBomb.py")
-        f = open(".UpdateF","w")
-        f.write(sg.text)
-    except:
-        isUpdate = False
 def mainMenu():
     print("_______________________")
     print("")
