@@ -9,7 +9,7 @@ global op
 global port
 global isUpdate
 def update():
-
+    global isUpdate
     isUpdate = False
 
     try:
@@ -729,7 +729,7 @@ def mainMenu():
             for i in sys.exc_info():
 
                 print(f"[ERROR] {i}")
-
+global isUpdate
 if(__name__ == "__main__" and not isUpdate ):
 
     mainMenu()
