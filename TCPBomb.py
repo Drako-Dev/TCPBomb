@@ -38,7 +38,7 @@ port = 80
 
 threads = 0
 
-version = float(1.6)
+version = float(1.4)
 
 currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/version')
 
@@ -120,7 +120,7 @@ def verifyports(url,max = False):
 
 def getRandomPort():
 
-    portlist = [int(20), int(21), int(22), int(23), int(25), int(53), int(67), int(68), int(69), int(80), int(443) , int(445)]
+    portlist = [int(20), int(21), int(22), int(23), int(25), int(53), int(67), int(68), int(69), int(80), int(443) , int(445), int(8080)]
 
     p =  random.choice(portlist)
 
