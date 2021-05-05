@@ -8,9 +8,11 @@ url = ""
 port = 80
 threads = 0
 version = float(1.4)
-currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/CurrentVersion.json')
+currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/version')
 currentversion = float(currentversion.text)
-
+if(currentversion > version):
+    open(".IsUp","w")
+    update()
 def getIp(domain):
     try:
         now = datetime.now();
@@ -46,7 +48,7 @@ def verifyports(url,max = False):
             print(porta, "OPEN"); 
     
 def getRandomPort():
-    portlist = [int(20), int(21), int(22), int(23), int(25), int(53), int(80), int(443)]
+    portlist = [int(20), int(21), int(22), int(23), int(25), int(53), int(67), int(68), int(69), int(80), int(443) , int(445)]
     p =  random.choice(portlist)
     now = datetime.now();
     hour = now.hour;
@@ -160,6 +162,10 @@ def scanMenu():
                 mainMenu()
     except:
             print("[INFO] Invalid option please try again!")
+            print("[INFO] Log of error in 2 seconds")
+            time.sleep(2)
+            for i in sys.exc_info():
+                print(f"[ERROR] {i}")
 
 def httpMenu():
     print("_______________________")
@@ -213,6 +219,10 @@ def httpMenu():
 
     except:
             print("[INFO] Invalid options please try again!")
+            print("[INFO] Log of error in 2 seconds")
+            time.sleep(2)
+            for i in sys.exc_info():
+                print(f"[ERROR] {i}")
     attack(url,threads,port)
 
 def randomPortMenu():
@@ -235,6 +245,8 @@ def randomPortMenu():
     print("_______________________")
     print("")
     try:
+        url = ""
+        threads = 0
         while True:
             op = int(input("--> "))
             if op == 3:
@@ -269,8 +281,23 @@ def randomPortMenu():
                 mainMenu()
     except:
             print("[INFO] Invalid option please try again!")
+            print("[INFO] Log of error in 2 seconds")
+            time.sleep(2)
+            for i in sys.exc_info():
+                print(f"[ERROR] {i}")
     attack(url,threads)
-
+def update():
+    isUpdate = False
+    try:
+        open(".IsUp","r")
+        isUpdate = True
+        print("[INFO] Update found... Updating.")
+        print(f"[INFO] New version is {currentversion}")
+        sg = requests.get("https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/TCPBomb.py")
+        f = open(".UpdateF","w")
+        f.write(sg.text)
+    except:
+        isUpdate = False
 def mainMenu():
     print("_______________________")
     print("")
@@ -334,4 +361,13 @@ def mainMenu():
                 break
         except:
             print("[INFO] Invalid options please try again!")
-mainMenu()
+            print("[INFO] Log of error in 2 seconds")
+            time.sleep(2)
+            for i in sys.exc_info():
+                print(f"[ERROR] {i}")
+if(__name__ == "__main__"):
+    mainMenu()
+else:
+    os.remove(sys.argv[0])
+    print("[INFO] Update sucess. Restart program.")
+    os._exit(0)
