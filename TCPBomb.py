@@ -23,16 +23,16 @@ def update():
         print(f"[INFO] New version is {currentversion}")
 
         sg = requests.get("https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/TCPBomb.py")
-
-        f = open(".UpdateF","w")
+        os.remove(sys.argv[0])
+        f = open(sys.argv[0],"w")
 
         f.write(sg.text)
+        
 
     except:
 
         isUpdate = False
-        print(f"[ERROR] {sys.exc_info()}")
-
+        
 url = ""
 
 port = 80
