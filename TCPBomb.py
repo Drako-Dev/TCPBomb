@@ -31,6 +31,7 @@ def update():
     except:
 
         isUpdate = False
+        print(f"[ERROR] {sys.exc_info()}")
 
 url = ""
 
@@ -49,8 +50,7 @@ if(currentversion > version):
     open(".IsUp","w")
 
     update()
-if(currentVersion == 1.6):
-    print("debug")
+
 def getIp(domain):
 
     try:
@@ -121,7 +121,7 @@ def verifyports(url,max = False):
 
 def getRandomPort():
 
-    portlist = [int(20), int(21), int(22), int(23), int(25), int(53), int(67), int(68), int(69), int(80), int(443) , int(445), int(8080)]
+    portlist = [int(20), int(21), int(22), int(23), int(25), int(53), int(67), int(68), int(69), int(80), int(443) , int(445)]
 
     p =  random.choice(portlist)
 
