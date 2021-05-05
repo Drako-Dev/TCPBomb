@@ -7,7 +7,7 @@ sl = 0
 global op
 
 global port
-global isUpdate
+isUpdate = False
 def update():
 
     global isUpdate
@@ -61,7 +61,7 @@ port = 80
 
 threads = 0
 
-version = float(1.7)
+version = float(1.6)
 
 currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/version')
 
@@ -752,8 +752,6 @@ def mainMenu():
             for i in sys.exc_info():
 
                 print(f"[ERROR] {i}")
-global isUpdate
 if(__name__ == "__main__" and not isUpdate ):
 
     mainMenu()
-
