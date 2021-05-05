@@ -9,30 +9,52 @@ global op
 global port
 global isUpdate
 def update():
+
     global isUpdate
+
     isUpdate = False
+
+
 
     try:
 
+
+
         open(".IsUp","r")
+
+
 
         isUpdate = True
 
+
+
         print("[INFO] Update found... Updating.")
+
+
 
         print(f"[INFO] New version is {currentversion}")
 
+
+
         sg = requests.get("https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/TCPBomb.py")
+
+
         os.remove(sys.argv[0])
         f = open(sys.argv[0],"w")
 
+
+
         f.write(sg.text)
-        
+
+        print("[INFO] Update sucess")
+
 
     except:
 
+
+
         isUpdate = False
-        
+
 url = ""
 
 port = 80
