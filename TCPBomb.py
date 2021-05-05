@@ -38,7 +38,7 @@ port = 80
 
 threads = 0
 
-version = float(1.4)
+version = float(1.6)
 
 currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/version')
 
@@ -49,7 +49,8 @@ if(currentversion > version):
     open(".IsUp","w")
 
     update()
-
+if(currentVersion == 1.6):
+    print("debug")
 def getIp(domain):
 
     try:
