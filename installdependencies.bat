@@ -1,3 +1,4 @@
+python -m pip install pip --upgrade
 pip install requests 
 pip install time
 pip install socket
